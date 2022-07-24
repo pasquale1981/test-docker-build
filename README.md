@@ -1,2 +1,2 @@
 # test-docker-build
-test push
+yes
