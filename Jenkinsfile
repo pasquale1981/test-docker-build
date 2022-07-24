@@ -1,4 +1,5 @@
-pipeline { 
+pipeline {
+    agent docker
     environment {
         registry = "pasqualematera/test-docker" 
         registryCredential = 'dockerhub' 
