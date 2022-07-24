@@ -3,13 +3,13 @@ pipeline {
         registry = "pasqualematera/test-docker" 
         registryCredential = 'dockerhub' 
         dockerImage = ''
-        branch = 'main'
+        // branch = 'main'
     }
     agent any 
     stages { 
         stage('Cloning our Git') { 
           steps {
-                git url:'https://github.com/pasquale1981/test-docker-build.git', branch: "${params.branch}"
+                git url:'https://github.com/pasquale1981/test-docker-build.git', branch: "$BRANCH"
                 // git 'https://github.com/pasquale1981/test-docker-build.git' 
             }
         } 
