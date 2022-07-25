@@ -13,7 +13,8 @@ pipeline {
     stages { 
         stage('Cloning our Git') { 
           steps {
-                git branch: 'main', url: 'https://github.com/pasquale1981/test-docker-build.git'
+                sh "echo 'Clono il repo!'"
+                // git branch: 'main', url: 'https://github.com/pasquale1981/test-docker-build.git'
             }
         } 
         stage('Building our image') { 
