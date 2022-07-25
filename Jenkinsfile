@@ -30,7 +30,7 @@ pipeline {
                     sh "echo 'Ho pushato!'"
                    // docker.withRegistry( '', registryCredential ) { 
                    //     dockerImage.push() 
-                    }
+                   // }
                 } 
             }
         } 
