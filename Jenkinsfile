@@ -9,14 +9,11 @@ pipeline {
         registry = "pasqualematera/test-docker" 
         registryCredential = 'dockerhub' 
         dockerImage = ''
-        // branch = 'main'
     }
     stages { 
         stage('Cloning our Git') { 
           steps {
-                // git url:'https://github.com/pasquale1981/test-docker-build.git', branch: ":$BRANCH"
                 git branch: 'main', url: 'https://github.com/pasquale1981/test-docker-build.git'
-                // git 'https://github.com/pasquale1981/test-docker-build.git' 
             }
         } 
         stage('Building our image') { 
