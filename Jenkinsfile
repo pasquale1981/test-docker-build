@@ -1,8 +1,9 @@
 pipeline {
     agent {
         docker {
-            cloud 'docker'
-          }
+            label 'docker-agent'
+            image 'jenkins/jnlp-agent-docker'
+        }
     }
     environment {
         registry = "pasqualematera/test-docker" 
