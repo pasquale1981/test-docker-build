@@ -10,7 +10,6 @@ pipeline {
         dockerImage = ''
         // branch = 'main'
     }
-    agent any 
     stages { 
         stage('Cloning our Git') { 
           steps {
