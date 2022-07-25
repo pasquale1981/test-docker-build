@@ -19,7 +19,7 @@ pipeline {
         stage('Building our image') { 
             steps { 
                 script { 
-                    sh "docker build -t $registry:$BUILD_NUMBER ."
+                    sh "echo 'Ho buildato!'"
                     // dockerImage = docker.build registry + ":$BUILD_NUMBER" 
                 }
             } 
@@ -27,15 +27,17 @@ pipeline {
         stage('Deploy our image') { 
             steps { 
                 script { 
-                    docker.withRegistry( '', registryCredential ) { 
-                        dockerImage.push() 
+                    sh "echo 'Ho pushato!'"
+                   // docker.withRegistry( '', registryCredential ) { 
+                   //     dockerImage.push() 
                     }
                 } 
             }
         } 
         stage('Cleaning up') { 
             steps { 
-                sh "docker rmi $registry:$BUILD_NUMBER" 
+                sh "echo 'Ho pulito!'"
+                // sh "docker rmi $registry:$BUILD_NUMBER" 
             }
         } 
     }
