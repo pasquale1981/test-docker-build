@@ -3,6 +3,7 @@ pipeline {
         docker {
             label 'docker-agent'
             image 'jenkins/jnlp-agent-docker'
+            reuseNode true
         }
     }
     environment {
