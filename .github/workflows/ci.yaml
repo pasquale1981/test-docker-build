@@ -42,7 +42,7 @@ jobs:
             ${{ secrets.DOCKER_HUB_USERNAME }}/test-docker:${{ steps.tag.outputs.tag }}
       - run: git clone "https://$TOKEN@github.com/pasquale1981/test-argocd.git"
         env:
-          PASSWORD: ${{ secrets.TOKEN }}        
+          TOKEN: ${{ secrets.TOKEN }}        
       - run: |
           docker run -u $(id -u):$(id -g) -v $(pwd)/test-argocd:/test-argocd -w /test-argocd/app03 --rm -t argoproj/argocd kustomize edit set image ${{ secrets.DOCKER_HUB_USERNAME }}/test-docker:${{ steps.tag.outputs.tag }}          
           git config --global user.email 'ci@argoproj.com'
