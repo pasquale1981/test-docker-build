@@ -47,4 +47,4 @@ jobs:
           git config --global user.name 'CI'
           git diff --exit-code && echo 'Already deployed' || (git commit -am 'Upgrade argocd to ${{ steps.tag.outputs.tag }}' && git push)
         # if: github.event_name == 'push' 
-        working-directory: /test-argocd/app03 
+        # working-directory: /test-argocd/app03 
