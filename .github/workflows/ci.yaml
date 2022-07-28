@@ -5,10 +5,15 @@ on:
       - 'main'
   workflow_dispatch:
     inputs:
-      environment:
-        type: environment
-        default: PROD
-        required: false
+      logLevel:
+        description: 'Log level'     
+        required: true
+        default: 'warning' 
+        type: choice
+        options:
+        - info
+        - warning
+        - debug
 env:
   ENVIRONMENT: ${{ github.event.inputs.environment }} or {{ DEV if dev }} or {{ PROD if main }}
 jobs:
