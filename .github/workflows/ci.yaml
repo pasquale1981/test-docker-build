@@ -37,4 +37,6 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/test-docker:${{ steps.tag.outputs.tag }}
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/test-docker:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/test-docker:${{ steps.tag.outputs.tag }}
