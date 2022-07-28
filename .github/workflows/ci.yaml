@@ -9,6 +9,8 @@ on:
         type: environment
         default: DEV
         required: false
+env:
+  ENVIRONMENT: ${{ github.event.inputs.environment }} or {{ DEV if dev }} or {{ PROD if main }}
 jobs:
   build:
     runs-on: ubuntu-latest
