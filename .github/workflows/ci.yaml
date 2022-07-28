@@ -40,13 +40,13 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/test-docker:latest
             ${{ secrets.DOCKER_HUB_USERNAME }}/test-docker:${{ steps.tag.outputs.tag }}
-      - run: git clone "https://$TOKEN@github.com/pasquale1981/test-argocd.git"
+      - run: git clone "https://$ARGO_TOKEN@github.com/pasquale1981/test-argocd.git"
         env:
-          TOKEN: ${{ secrets.TOKEN }}        
+          TOKEN: ${{ secrets.ARGO_TOKEN }}        
       - run: |
           docker run -u $(id -u):$(id -g) -v $(pwd)/test-argocd:/test-argocd -w /test-argocd/app03 --rm -t argoproj/argocd kustomize edit set image ${{ secrets.DOCKER_HUB_USERNAME }}/test-docker:${{ steps.tag.outputs.tag }}          
-          git config --global user.email 'ci@argoproj.com'
-          git config --global user.name 'CI'
+          git config --global user.email 'cicd@replio.it'
+          git config --global user.name 'CICD'
           cd test-argocd/app03 && git add kustomization.yaml && git commit -am 'Upgrade argocd to ${{ steps.tag.outputs.tag }}' && git push
          
         # if: github.event_name == 'push' 
