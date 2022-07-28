@@ -7,7 +7,7 @@ on:
     inputs:
       environment:
         type: environment
-        default: DEV
+        default: PROD
         required: false
 env:
   ENVIRONMENT: ${{ github.event.inputs.environment }} or {{ DEV if dev }} or {{ PROD if main }}
