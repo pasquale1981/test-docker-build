@@ -3,19 +3,19 @@ on:
   push:
     branches:
       - 'main'
-  workflow_dispatch:
-    inputs:
-      logLevel:
-        description: 'Log level'     
-        required: false
-        default: 'warning' 
-        type: choice
-        options:
-        - info
-        - warning
-        - debug
-env:
-  ENVIRONMENT: ${{ github.event.inputs.environment }} or {{ DEV if dev }} or {{ PROD if main }}
+#   workflow_dispatch:
+#     inputs:
+#       logLevel:
+#         description: 'Log level'     
+#         required: false
+#         default: 'warning' 
+#         type: choice
+#         options:
+#         - info
+#         - warning
+#         - debug
+# env:
+#   ENVIRONMENT: ${{ github.event.inputs.environment }} or {{ DEV if dev }} or {{ PROD if main }}
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -41,8 +41,7 @@ jobs:
             ${{ secrets.DOCKER_HUB_USERNAME }}/test-docker:latest
             ${{ secrets.DOCKER_HUB_USERNAME }}/test-docker:${{ steps.tag.outputs.tag }}
       - run: |
-          git clone "https://$ARGO_TOKEN@github.com/pasquale1981/test-argocd.git"
-          echo $ARGO_TOKEN
+          git clone "https://$TOKEN@github.com/pasquale1981/test-argocd.git"
         env:
           TOKEN: ${{ secrets.ARGO_TOKEN }}        
       - run: |
