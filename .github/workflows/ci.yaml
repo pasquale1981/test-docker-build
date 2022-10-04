@@ -3,52 +3,48 @@ on:
   push:
     branches:
       - 'main'
-#   workflow_dispatch:
-#     inputs:
-#       logLevel:
-#         description: 'Log level'     
-#         required: false
-#         default: 'warning' 
-#         type: choice
-#         options:
-#         - info
-#         - warning
-#         - debug
-# env:
-#   ENVIRONMENT: ${{ github.event.inputs.environment }} or {{ DEV if dev }} or {{ PROD if main }}
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout 
-        uses: actions/checkout@v2
-      - uses: tenhaus/get-release-or-tag@v2
-        id: tag        
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
+      - name: JSON to variables
+        uses: rgarcia-phi/json-to-variables@v1.1.0
         with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-      - name: Build and push
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/test-docker:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/test-docker:${{ steps.tag.outputs.tag }}
-      - run: |
-          git clone "https://$TOKEN@github.com/pasquale1981/test-argocd.git"
-        env:
-          TOKEN: ${{ secrets.ARGO_TOKEN }}        
-      - run: |
-          docker run -u $(id -u):$(id -g) -v $(pwd)/test-argocd:/test-argocd -w /test-argocd/app03 --rm -t argoproj/argocd kustomize edit set image ${{ secrets.DOCKER_HUB_USERNAME }}/test-docker:${{ steps.tag.outputs.tag }}          
-          git config --global user.email 'cicd@replio.it'
-          git config --global user.name 'CICD'
-          cd test-argocd/app03
-          git add kustomization.yaml
-          git commit -am 'Upgrade argocd to ${{ steps.tag.outputs.tag }}'
-          git push
+          filename: 'package.json'
+          prefix: version
+          masked: true
+      - name: Show output
+        run: echo "The version is ${{ env.version_version }}"
+
+    #   - name: Checkout 
+    #     uses: actions/checkout@v2
+    #   - uses: tenhaus/get-release-or-tag@v2
+    #     id: tag        
+    #   - name: Login to Docker Hub
+    #     uses: docker/login-action@v2
+    #     with:
+    #       username: ${{ secrets.DOCKER_HUB_USERNAME }}
+    #       password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+    #   - name: Set up Docker Buildx
+    #     uses: docker/setup-buildx-action@v2
+    #   - name: Build and push
+    #     uses: docker/build-push-action@v3
+    #     with:
+    #       context: .
+    #       file: ./Dockerfile
+    #       push: true
+    #       tags: |
+    #         ${{ secrets.DOCKER_HUB_USERNAME }}/test-docker:latest
+    #         ${{ secrets.DOCKER_HUB_USERNAME }}/test-docker:${{ steps.tag.outputs.tag }}
+    #   - run: |
+    #       git clone "https://$TOKEN@github.com/pasquale1981/test-argocd.git"
+    #     env:
+    #       TOKEN: ${{ secrets.ARGO_TOKEN }}        
+    #   - run: |
+    #       docker run -u $(id -u):$(id -g) -v $(pwd)/test-argocd:/test-argocd -w /test-argocd/app03 --rm -t argoproj/argocd kustomize edit set image ${{ secrets.DOCKER_HUB_USERNAME }}/test-docker:${{ steps.tag.outputs.tag }}          
+    #       git config --global user.email 'cicd@replio.it'
+    #       git config --global user.name 'CICD'
+    #       cd test-argocd/app03
+    #       git add kustomization.yaml
+    #       git commit -am 'Upgrade argocd to ${{ steps.tag.outputs.tag }}'
+    #       git push
